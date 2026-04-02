@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hank — Growth Marketing Operator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080A0C;
+    --white: #F5F2EC;
+    --accent: #FF4D1C;
+    --accent2: #FFB800;
+    --mid: #1A1D21;
+    --muted: #A8ADB8;
+    --border: rgba(245,242,236,0.1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.6;
+  }
+
+  /* HEADER / HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    padding: 60px 60px 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent) 0%, #FF8C00 50%, var(--accent2) 100%);
+    clip-path: polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(100px, 14vw, 180px);
+    color: rgba(255,255,255,0.06);
+    top: 50%;
+    left: -40px;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    letter-spacing: -2px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(255,77,28,0.12);
+    border: 1px solid rgba(255,77,28,0.3);
+    padding: 6px 14px;
+    display: inline-block;
+    margin-bottom: 28px;
+    border-radius: 2px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 8vw, 110px);
+    line-height: 0.9;
+    letter-spacing: -1px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+
+  h1 span { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 17px;
+    color: rgba(245,242,236,0.88);
+    max-width: 440px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+
+  .hero-sub strong { color: var(--white); font-weight: 600; }
+
+  .cta-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s ease 0.3s both;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--white);
+    padding: 14px 32px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.2s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .btn-primary:hover { background: #e03a0c; transform: translateY(-2px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--white);
+    padding: 14px 32px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(245,242,236,0.25);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--white); background: rgba(245,242,236,0.05); }
+
+  /* STATS IN HERO-RIGHT */
+  .hero-stats {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 60px 60px 60px 80px;
+  }
+
+  .stat-block {
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .stat-block:nth-child(1) { animation-delay: 0.15s; }
+  .stat-block:nth-child(2) { animation-delay: 0.25s; }
+  .stat-block:nth-child(3) { animation-delay: 0.35s; }
+  .stat-block:nth-child(4) { animation-delay: 0.45s; }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 62px;
+    line-height: 1;
+    color: var(--black);
+    letter-spacing: -1px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(8,10,12,0.7);
+    letter-spacing: 0.3px;
+    margin-top: 2px;
+  }
+
+  .stat-divider {
+    width: 40px;
+    height: 2px;
+    background: rgba(8,10,12,0.25);
+    margin-top: 14px;
+  }
+
+  /* SECTION STYLES */
+  section {
+    padding: 100px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 5vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.5px;
+    margin-bottom: 48px;
+  }
+
+  h2 em { color: var(--accent); font-style: normal; }
+
+  /* WHAT I DO */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .service-card {
+    background: var(--mid);
+    padding: 36px 32px;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .service-card:hover::after { transform: scaleX(1); }
+  .service-card:hover { background: #1F2227; }
+
+  .service-icon {
+    font-size: 28px;
+    margin-bottom: 18px;
+    display: block;
+  }
+
+  .service-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    color: var(--white);
+  }
+
+  .service-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* RESULTS */
+  .results-section {
+    background: var(--mid);
+    padding: 100px 80px;
+  }
+
+  .results-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-top: 0;
+  }
+
+  .result-item {
+    background: var(--black);
+    padding: 40px 36px;
+    border-left: 3px solid var(--accent);
+    transition: border-color 0.2s;
+  }
+
+  .result-item:hover { border-color: var(--accent2); }
+
+  .result-item .number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+
+  .result-item .result-text {
+    font-size: 15px;
+    color: rgba(245,242,236,0.88);
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+
+  /* WHO I WORK WITH */
+  .ideal-client {
+    padding: 100px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .client-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .client-card {
+    border: 1px solid var(--border);
+    padding: 32px 28px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+
+  .client-card:hover { border-color: rgba(255,77,28,0.4); }
+
+  .client-card h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--accent2);
+  }
+
+  .client-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* STACK */
+  .stack-section {
+    background: var(--black);
+    padding: 100px 80px;
+    border-top: 1px solid var(--border);
+  }
+
+  .stack-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .stack-groups {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 0;
+  }
+
+  .stack-group {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(245,242,236,0.08);
+    border-radius: 6px;
+    padding: 28px 24px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .stack-group:hover {
+    border-color: rgba(255,77,28,0.25);
+    box-shadow: 0 0 28px rgba(255,77,28,0.06);
+  }
+
+  .stack-group h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,77,28,0.2);
+  }
+
+  .stack-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .stack-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 13px;
+    background: rgba(245,242,236,0.05);
+    border: 1px solid rgba(245,242,236,0.1);
+    color: rgba(245,242,236,0.88);
+    transition: all 0.2s;
+    border-radius: 4px;
+  }
+
+  .stack-tag:hover {
+    background: rgba(255,77,28,0.12);
+    border-color: rgba(255,77,28,0.35);
+    color: var(--white);
+    transform: translateY(-1px);
+  }
+
+  .tool-icon {
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+    flex-shrink: 0;
+    opacity: 0.9;
+  }
+
+  /* OUTREACH / CTA */
+  .cta-section {
+    background: var(--accent);
+    padding: 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: 'HIRE';
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 300px;
+    color: rgba(255,255,255,0.07);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .cta-section h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    color: var(--white);
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .cta-section p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .btn-dark {
+    background: var(--black);
+    color: var(--white);
+    padding: 16px 40px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.2s;
+    position: relative;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-dark:hover { background: #1A1D21; transform: translateY(-2px); }
+
+  /* FOOTER NAV */
+  nav {
+    position: fixed;
+    top: 24px;
+    right: 40px;
+    z-index: 999;
+    display: flex;
+    gap: 6px;
+    background: rgba(8,10,12,0.8);
+    backdrop-filter: blur(12px);
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  nav a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #B8BCC6;
+    text-decoration: none;
+    padding: 4px 10px;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--accent); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* CLIENTS SERVED */
+  .clients-wrap {
+    background: #080A0C;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .clients-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--white);
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .clients-marquee-outer {
+    overflow: hidden;
+    width: 100%;
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+
+  .clients-marquee-track {
+    display: flex;
+    gap: 24px;
+    width: max-content;
+    animation: logoScroll 30s linear infinite;
+  }
+
+  .clients-marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes logoScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .client-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 32px;
+    flex-shrink: 0;
+  }
+
+  .client-logo img {
+    width: 120px;
+    height: 40px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 1;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .hero-right {
+      display: none;
+    }
+    .hero-left {
+      padding: 100px 32px 60px;
+    }
+    section, .results-section, .ideal-client, .stack-section, .cta-section {
+      padding: 60px 32px;
+    }
+    .services-grid, .results-grid, .client-grid, .stack-groups {
+      grid-template-columns: 1fr;
+    }
+    nav { top: 12px; right: 12px; }
+  }
+
+  /* Image Slider */
+  .img-slider-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin: 32px 0 48px;
+    padding-right: 80px; /* peek amount */
+  }
+  .img-slider-track {
+    display: flex;
+    gap: 16px;
+    transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+    will-change: transform;
+  }
+  .img-slider-track img {
+    width: calc(100% - 80px); /* fills view minus peek */
+    flex-shrink: 0;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    opacity: 0.45;
+    transition: opacity 0.45s ease;
+  }
+  .img-slider-track img.active {
+    opacity: 1;
+  }
+  .slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(8,10,12,0.75);
+    border: 1px solid var(--border);
+    color: var(--white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: background 0.2s;
+  }
+  .slider-btn:hover { background: var(--accent); border-color: var(--accent); }
+  .slider-btn.prev { left: 8px; }
+  .slider-btn.next { right: 96px; }
+  @media (max-width: 600px) {
+    .img-slider-wrapper { padding-right: 48px; }
+    .img-slider-track img { width: calc(100% - 48px); height: 220px; }
+    .slider-btn.next { right: 56px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#services">Services</a>
+  <a href="#results">Results</a>
+  <a href="#stack">Stack</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top" style="max-width:100%; padding:0;">
+  <div class="hero-left">
+    <div class="hero-bg-text">GROWTH</div>
+    <span class="tag">Available for hire · Immediate start</span>
+    <h1>Hank<br><span>Grows</span><br>Agencies.</h1>
+    <p class="hero-sub">
+      I build the <strong>full marketing engine</strong> - paid ads, funnels, CRM automation, and outbound systems, so your agency fills its pipeline with <strong>qualified sales calls every week.</strong>
+    </p>
+    <div class="cta-row">
+      <a href="https://calendly.com/growh/bestapp" target="_blank" class="btn-primary">Book a Call →</a>
+      <a href="#results" class="btn-secondary">See My Results</a>
+      <a href="https://www.linkedin.com/in/hanklin-ie/" target="_blank" class="btn-secondary">My LinkedIn</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="stat-block">
+        <div class="stat-num">$32–50</div>
+        <div class="stat-label">Average Cost per lead maintained on Meta Ads</div>
+        <div class="stat-divider"></div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">5–15</div>
+        <div class="stat-label">Warm leads generated per week per campaign via email outbound</div>
+        <div class="stat-divider"></div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">$15K</div>
+        <div class="stat-label">Highest client deal closed via my systems -> With only $800 ad spent</div>
+        <div class="stat-divider"></div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">2.5%</div>
+        <div class="stat-label">Peak CTR achieved through creative testing</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS SERVED -->
+<div class="clients-wrap">
+  <p class="clients-label">Clients Served</p>
+  <div class="clients-marquee-outer">
+    <div class="clients-marquee-track">
+      <div class="client-logo"><img src="Logos/Logo 1.png" alt="Client 1"></div>
+      <div class="client-logo"><img src="Logos/Logo 2.png" alt="Client 2"></div>
+      <div class="client-logo"><img src="Logos/Logo 3.png" alt="Client 3"></div>
+      <div class="client-logo"><img src="Logos/Logo 4.png" alt="Client 4"></div>
+      <div class="client-logo"><img src="Logos/Logo 5.png" alt="Client 5"></div>
+      <div class="client-logo"><img src="Logos/Logo 6.png" alt="Client 6"></div>
+      <div class="client-logo"><img src="Logos/Logo 7.png" alt="Client 7"></div>
+      <div class="client-logo"><img src="Logos/Logo 8.png" alt="Client 8"></div>
+      <div class="client-logo"><img src="Logos/Logo 9.png" alt="Client 9"></div>
+      <div class="client-logo"><img src="Logos/Logo 10.png" alt="Client 10"></div>
+      <!-- duplicate for seamless loop -->
+      <div class="client-logo"><img src="Logos/Logo 1.png" alt="Client 1"></div>
+      <div class="client-logo"><img src="Logos/Logo 2.png" alt="Client 2"></div>
+      <div class="client-logo"><img src="Logos/Logo 3.png" alt="Client 3"></div>
+      <div class="client-logo"><img src="Logos/Logo 4.png" alt="Client 4"></div>
+      <div class="client-logo"><img src="Logos/Logo 5.png" alt="Client 5"></div>
+      <div class="client-logo"><img src="Logos/Logo 6.png" alt="Client 6"></div>
+      <div class="client-logo"><img src="Logos/Logo 7.png" alt="Client 7"></div>
+      <div class="client-logo"><img src="Logos/Logo 8.png" alt="Client 8"></div>
+      <div class="client-logo"><img src="Logos/Logo 9.png" alt="Client 9"></div>
+      <div class="client-logo"><img src="Logos/Logo 10.png" alt="Client 10"></div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT I DO -->
+<section id="services" style="max-width:1200px; padding: 100px 80px;">
+  <p class="section-label reveal">What I Deliver</p>
+  <h2 class="reveal">6 Systems That <em>Fill</em><br>Your Pipeline.</h2>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <span class="service-icon">📣</span>
+      <h3>Meta & Instagram Ads</h3>
+      <p>Full campaign setup, creative testing, and ongoing optimization. I've maintained $32–$50 CPL and 1–2.5% CTR for high-ticket agencies. Research, angles, copy, and creatives, all handled.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">⚙️</span>
+      <h3>GoHighLevel Build-Outs</h3>
+      <p>End-to-end GHL setup: pipelines, onboarding flows, calendar booking, proposal automation, follow-up sequences, and full agency sub-account infrastructure.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">✉️</span>
+      <h3>AI Email Outbound</h3>
+      <p>200–300 targeted cold emails daily using Apollo, Instantly, Clay, and AI personalization. Proven to generate 5–6 warm leads per week for $2k–$15k offers.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🎯</span>
+      <h3>High-Converting Funnels</h3>
+      <p>Funnel strategy, landing page design, conversion copy, and A/B testing, built on GoHighLevel, ClickFunnels, Webflow, or WordPress. Optimized to turn traffic into booked calls.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🔗</span>
+      <h3>LinkedIn Lead Generation</h3>
+      <p>Inbound and outbound LinkedIn strategy: viral content creation, lead magnets, connection sequences, and DM scripts that attract and convert ideal clients.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🤖</span>
+      <h3>CRM & AI Automation</h3>
+      <p>Automated lead nurture, follow-up sequences, Zapier/Make integrations, and AI-powered workflows that work 24/7, so no lead ever slips through the cracks.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<div class="results-section" id="results">
+  <div class="results-inner">
+    <p class="section-label reveal">Proven Results</p>
+    <h2 class="reveal">Numbers That<br><em>Matter</em> to Agencies.</h2>
+
+    <!-- Image Slider -->
+    <div class="img-slider-wrapper">
+      <button class="slider-btn prev" onclick="slideImages(-1)">&#8592;</button>
+      <div class="img-slider-track" id="sliderTrack">
+        <img src="Results 1 (1).png" alt="Result 1">
+        <img src="Results 2.png" alt="Result 2">
+        <img src="Results 3 (1).png" alt="Result 3">
+      </div>
+      <button class="slider-btn next" onclick="slideImages(1)">&#8594;</button>
+    </div>
+
+    <div class="results-grid reveal">
+      <div class="result-item">
+        <div class="number">$32–50</div>
+        <div class="result-text">Cost per lead on Meta Ads campaigns for marketing agencies running high-ticket service offers. Below industry average for the $2k–$15k bracket.</div>
+      </div>
+      <div class="result-item">
+        <div class="number">1–2.5% CTR</div>
+        <div class="result-text">Click-through rate consistently achieved through structured creative testing, ad angle research, and iterative optimization, not one-off luck.</div>
+      </div>
+      <div class="result-item">
+        <div class="number">3–10 Clients/Mo</div>
+        <div class="result-text">New $5k–$15k clients closed per month for a creative agency using my outbound email system, running 200–300 targeted emails daily.</div>
+      </div>
+      <div class="result-item">
+        <div class="number">5–15 Leads/Wk</div>
+        <div class="result-text">Warm, qualified leads generated weekly through AI-powered cold email sequences, giving sales teams real conversations, not just contact lists.</div>
+      </div>
+      <div class="result-item">
+        <div class="number">Full GHL Stack</div>
+        <div class="result-text">Complete GoHighLevel build-outs: onboarding, pipeline management, calendar booking, proposal delivery, and nurture automations, zero manual work needed.</div>
+      </div>
+      <div class="result-item">
+        <div class="number">End-to-End</div>
+        <div class="result-text">Not a specialist who hands off after one task, I build the entire system from traffic acquisition to booked call, so nothing breaks in the handoff.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHO I WORK WITH -->
+<section class="ideal-client reveal">
+  <p class="section-label">Ideal Fit</p>
+  <h2>You're the Right Client<br><em>If You Are...</em></h2>
+  <div class="client-grid">
+    <div class="client-card">
+      <h3>🏢 A Marketing or Creative Agency</h3>
+      <p>Offering services at $2k–$15k/month and need a steady stream of qualified leads without your team spending hours on manual outreach.</p>
+    </div>
+    <div class="client-card">
+      <h3>🚀 A High-Ticket Service Business</h3>
+      <p>Coaches, consultants, or SaaS companies who need funnels, ads, and automation systems built right, not stitched together freelancer work.</p>
+    </div>
+    <div class="client-card">
+      <h3>📈 An Agency Ready to Scale</h3>
+      <p>You have a proven offer and need the infrastructure, paid ads, CRM, automation, to go from inconsistent revenue to predictable monthly growth.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOOL STACK -->
+<div class="stack-section" id="stack">
+  <div class="stack-inner">
+    <p class="section-label reveal">Full Tool Stack</p>
+    <h2 class="reveal">I Know the Tools<br><em>You're Already Using.</em></h2>
+    <div class="stack-groups reveal">
+
+      <div class="stack-group">
+        <h3>CRM & Automation</h3>
+        <div class="stack-tags">
+          <span class="stack-tag"><img src="https://cdn.simpleicons.org/hubspot/ffffff" class="tool-icon" alt="">GoHighLevel</span>
+          <span class="stack-tag"><img src="https://cdn.simpleicons.org/zapier/ffffff" class="tool-icon" alt="">Zapier</span>
+          <span class="stack-tag"><img src="https://cdn.simpleicons.org/make/ffffff" class="tool-icon" alt="">Make</span>
+          <span class="stack-tag"><img src="https://cdn.simpleicons.org/hubspot/ffffff" class="tool-icon" alt="">HubSpot</span>
+          <span class="stack-tag"><img src="https://cdn.simpleicons.org/n8n/ffffff" class="tool-icon" alt="">n8n</span>
+          <span class="stack-tag">🤖 AI Workflows</span>
+        </div>
+      </div>
+
+      <div class="stack-group">
+        <h3>Paid Ads</h3>
+        <div class="stack-tags">
+          <span class="stack-tag"><img src="https://cdn.simpleicons.org/meta/ffffff" class="tool-icon" alt="">Meta Ads Manager</span>
+          <span class="stack-tag"><img src="https://cdn.simpleicons.org/instagram/ffffff" class="tool-icon" alt="">Instagram Ads</span>
+          <span class="stack-tag">🎨 Creative Testing</span>
+          <span class="stack-tag">🔍 Ad Research</span>
+        </div>
+      </div>
+
+      <div class="stack-group">
+        <h3>Lead Generation</h3>
+        <div class="stack-tags">
+          <span class="stack-tag">🚀 Apollo</span>
+          <span class="stack-tag">⚡ Instantly</span>
+          <span class="stack-tag">✉️ Lemlist</span>
+          <span class="stack-tag">💡 Smartlead</span>
+          <span class="stack-tag">🧩 Clay</span>
+          <span class="stack-tag"><img src="https://cdn.simpleicons.org/linkedin/ffffff" class="tool-icon" alt="">LinkedIn Outbound</span>
+        </div>
+      </div>
+
+      <div class="stack-group">
+        <h3>Funnels & Web</h3>
+        <div class="stack-tags">
+          <span class="stack-tag">🔧 GoHighLevel Funnels</span>
+          <span class="stack-tag">📊 ClickFunnels</span>
+          <span class="stack-tag"><img src="https://cdn.simpleicons.org/webflow/ffffff" class="tool-icon" alt="">Webflow</span>
+          <span class="stack-tag"><img src="https://cdn.simpleicons.org/wordpress/ffffff" class="tool-icon" alt="">WordPress</span>
+          <span class="stack-tag">📈 Conversion Optimization</span>
+        </div>
+      </div>
+
+      <div class="stack-group">
+        <h3>Email & Deliverability</h3>
+        <div class="stack-tags">
+          <span class="stack-tag"><img src="https://cdn.simpleicons.org/gmail/ffffff" class="tool-icon" alt="">Gmail</span>
+          <span class="stack-tag">📬 Email Deliverability</span>
+          <span class="stack-tag">📧 Cold Email Sequences</span>
+          <span class="stack-tag">🌱 Nurture Flows</span>
+        </div>
+      </div>
+
+      <div class="stack-group">
+        <h3>AI & Analytics</h3>
+        <div class="stack-tags">
+          <span class="stack-tag"><img src="https://cdn.simpleicons.org/openai/ffffff" class="tool-icon" alt="">ChatGPT</span>
+          <span class="stack-tag">✍️ AI Copywriting</span>
+          <span class="stack-tag"><img src="https://cdn.simpleicons.org/meta/ffffff" class="tool-icon" alt="">Meta Ads Reporting</span>
+          <span class="stack-tag">📊 Funnel Analytics</span>
+          <span class="stack-tag">🧠 Clay AI</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section" id="contact">
+  <h2>Let's Build Your<br>Pipeline Together.</h2>
+  <p>Open to full-time roles, contract work, and agency partnerships. Available immediately.</p>
+  <a href="https://calendly.com/growh/bestapp?month=2026-04" target="_blank" rel="noopener" class="btn-dark">📅 Book a 30-Min Intro Call</a>
+</div>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Image Slider
+  let sliderIndex = 0;
+  function updateSlider() {
+    const track = document.getElementById('sliderTrack');
+    const items = track.querySelectorAll('img');
+    const itemWidth = items[0].offsetWidth + 16;
+    track.style.transform = `translateX(-${sliderIndex * itemWidth}px)`;
+    items.forEach((img, i) => img.classList.toggle('active', i === sliderIndex));
+  }
+  function slideImages(dir) {
+    const track = document.getElementById('sliderTrack');
+    const items = track.querySelectorAll('img');
+    sliderIndex = Math.max(0, Math.min(sliderIndex + dir, items.length - 1));
+    updateSlider();
+  }
+  // init active state
+  document.addEventListener('DOMContentLoaded', () => {
+    const first = document.querySelector('#sliderTrack img');
+    if (first) first.classList.add('active');
+  });
+</script>
+</body>
+</html>
